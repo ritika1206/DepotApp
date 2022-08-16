@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'admin/index'
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/destroy'
   get 'admin' => 'admin#index'
   
   # Mapping custom routes to actions in sessions controller
