@@ -1,0 +1,12 @@
+@keyframes line_item-highlight {
+  0% {
+    background: #8f8;
+  }
+  100% {
+    background: none;
+  }
+}
+
+.line-item-hightlight {
+  animation: line-item-highlight 1s;
+}
