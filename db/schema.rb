@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_17_125011) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_17_134129) do
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.string "message_id", null: false
@@ -67,7 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_17_125011) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "name"
+    t.text "name"
     t.text "address"
     t.string "email"
     t.integer "psy_type"
