@@ -13,6 +13,7 @@ class Order < ApplicationRecord
   validates :pay_type, inclusion: pay_types.keys
   validates :permalink, uniqueness: true, format: { with: /[[:alnum:]]+/, message: "no special and no space allowed in the permalink" }
   validates_comparision_of :words_in_permalink_separated_by_hyphen, greater_than_or_equal_to: 3, message: "permalink should contain minimun 3 words separated by hyphen"
+  validates :price, numericality: true, :if ->(order) { order.price.present? }
 
   def add_line_items_from_cart(cart)
     cart.line_items.each do |item|
