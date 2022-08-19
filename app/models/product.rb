@@ -11,7 +11,6 @@ class Product < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }, comparision: { greater_than: :discount_price }
   validates :title, uniqueness: true
 
-  validates :image_url
   validates :permalink, uniqueness: true, format: { with: /[[:alnum:]]+/, message: "no special and no space allowed in the permalink" }
   validates_comparision_of :words_in_permalink_separated_by_hyphen, greater_than_or_equal_to: 3, message: "permalink should contain minimun 3 words separated by hyphen"
   validates_comparision_of :words_in_description, greater_than_or_equal_to: 5, less_than_equal_to: 10
