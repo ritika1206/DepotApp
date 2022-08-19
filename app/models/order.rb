@@ -11,10 +11,6 @@ class Order < ApplicationRecord
   
   validates :name, :address, :email, presence: true
   validates :pay_type, inclusion: pay_types.keys
-  validates :permalink, uniqueness: true, format: { with: /[[:alnum:]]+/, message: "no special and no space allowed in the permalink" }
-  validates_comparision_of :words_in_permalink_separated_by_hyphen, greater_than_or_equal_to: 3, message: "permalink should contain minimun 3 words separated by hyphen"
-  validates :price, numericality: true, :if ->(order) { order.price.present? }
-  validates_comparision_of :words_in_description, greater_than_or_equal_to: 5, less_than_equal_to: 10 
 
   def add_line_items_from_cart(cart)
     cart.line_items.each do |item|
@@ -55,14 +51,4 @@ class Order < ApplicationRecord
       raise payment_result.error
     end
   end
-
-  private
-
-    def words_in_permalink_separated_by_hyphen
-      self.permalink.split('-').length
-    end
-
-    def words_in_description
-      self.desciption.scan('\w+').length
-    end
 end
