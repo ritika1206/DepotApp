@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true
+  validates :email, uniqueness: true, format: { with: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ }
 
   # Validates that the two passwords match in field
   has_secure_password
