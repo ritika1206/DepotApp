@@ -4,4 +4,5 @@ class ImageUrlValidator < ActiveModel::EachValidator
       product.error.add :image_url, "invalid image url"
     end
   end
+end
 
