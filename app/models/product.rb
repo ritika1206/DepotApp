@@ -5,6 +5,9 @@ class Product < ApplicationRecord
   has_many :line_items
   has_many :orders, through: :line_items
   before_destroy :ensure_not_referenced_by_any_line_item
+  after_initialize do |prod| 
+    prod.title = 'abc' unless prod.title 
+  end
 
   validates :title, :description, :image_url, :price, presence: true
 
