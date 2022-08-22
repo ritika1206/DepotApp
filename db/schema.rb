@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_16_023829) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_17_134129) do
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.string "message_id", null: false
@@ -23,8 +23,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_023829) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_023829) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+    t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_023829) do
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "line_items_count", default: 0, null: false
   end
 
   create_table "line_items", force: :cascade do |t|
@@ -66,7 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_023829) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "name"
+    t.text "name"
     t.text "address"
     t.string "email"
     t.integer "psy_type"
@@ -81,6 +82,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_023829) do
     t.decimal "price", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled", default: false
+    t.decimal "discount_price"
+    t.string "permalink"
   end
 
   create_table "support_requests", force: :cascade do |t|
@@ -98,6 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_16_023829) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
