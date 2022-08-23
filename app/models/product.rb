@@ -6,6 +6,11 @@ class Product < ApplicationRecord
   has_many :orders, through: :line_items
   before_destroy :ensure_not_referenced_by_any_line_item
 
+  after_initialize do |prod| 
+    prod.title = 'abc' unless prod.title
+    prod.discount_price = prod.price unless prod.price
+  end
+
   validates :title, :description, :image_url, :price, presence: true
 
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }, if: :price_present?
@@ -23,6 +28,10 @@ class Product < ApplicationRecord
         errors.add(:base, 'Line Items present')
         throw :abort
       end
+    end
+
+    def restrict_admin_deletion
+      throw :abort if email == 'admin@depot.com'
     end
 
     def words_in_permalink_separated_by_hyphen

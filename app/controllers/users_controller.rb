@@ -25,6 +25,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        UserMailer.with(user: @user).welcome_email.deliver_later
+        
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
@@ -58,7 +60,7 @@ class UsersController < ApplicationController
   end
 
   rescue_from 'User::Error' do |exception|
-    redirect_to users_urls, notice: exception.message
+    redirect_to users_url, notice: exception.message
   end
 
   private
