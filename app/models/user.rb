@@ -10,6 +10,7 @@ class User < ApplicationRecord
   ## Creating Transaction/Trigger that will rollback when last user deleted
   before_destroy :restrict_admin_deletion
   after_destroy :ensure_an_admin_remains
+  before_update :restrict_admin_updation
 
   class Error < StandardError
   end
@@ -24,6 +25,12 @@ class User < ApplicationRecord
     def restrict_admin_deletion
       if email.downcase == 'admin@depot.com'
         raise Error.new "Can't delete admin"
+      end
+    end
+
+    def restrict_admin_updation
+      if email.downcase == 'admin@depot.com'
+        raise Error.new "Can't update admin"
       end
     end
 end
