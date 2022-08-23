@@ -8,14 +8,22 @@ class User < ApplicationRecord
   has_secure_password
 
   ## Creating Transaction/Trigger that will rollback when last user deleted
+  before_destroy :restrict_admin_deletion
   after_destroy :ensure_an_admin_remains
 
   class Error < StandardError
   end
 
-  private def ensure_an_admin_remains
-    if User.count.zero?
-      raise Error.new "Cant't delete last user"
+  private 
+    def ensure_an_admin_remains
+      if User.count.zero?
+        raise Error.new "Cant't delete last user"
+      end
     end
-  end
+
+    def restrict_admin_deletion
+      if email.downcase == 'admin@depot.com'
+        raise Error.new "Can't delete admin"
+      end
+    end
 end
