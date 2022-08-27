@@ -2,7 +2,7 @@ class Product < ApplicationRecord
   PERMALINK_REGEX = /[[:alnum:]]+/
   validates_with ImageUrlValidator, attributes: [:image_url], if: ->{ image_url.present? }
 
-  has_many :line_items
+  has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
   before_destroy :ensure_not_referenced_by_any_line_item
 
