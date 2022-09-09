@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'admin' => 'admin#index'
+  get 'categories' => 'store#categories'
   
   # Mapping custom routes to actions in sessions controller
   controller :sessions do
