@@ -15,6 +15,8 @@ class Product < ApplicationRecord
     end
   end
 
+  after_create :update_total_products_count_of_category
+
   validates :title, :description, :image_url, :price, presence: true
 
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }, if: :price_present?
@@ -61,5 +63,10 @@ class Product < ApplicationRecord
 
     def discount_price_present?
       discount_price.present?
+    end
+
+    def update_total_products_count_of_category
+      category.total_products_count = category.products_count
+      category.children.each { |child| category.total_products_count += child.products_count }
     end
 end
