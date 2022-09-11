@@ -25,8 +25,8 @@ class Product < ApplicationRecord
   validates_comparison_of :words_in_description, greater_than_or_equal_to: 5, less_than_or_equal_to: 10, if: ->{ description.present? }
 
   scope :enabled_and_price_above, ->(price) { where("enabled = ? AND price > ?", true, price) }
-  scope :products_in_cart, -> { Product.joins(:line_items) }
-  scope :names_of_products_in_cart, -> { Product.joins(:line_items).pluck(:title) }
+  scope :products_in_cart, -> { Product.joins(:line_items).distinct }
+  scope :names_of_products_in_cart, -> { Product.joins(:line_items).distinct.pluck(:title) }
 
 
   private
