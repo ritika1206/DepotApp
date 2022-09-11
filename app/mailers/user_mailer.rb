@@ -1,8 +1,8 @@
 class UserMailer < ApplicationMailer
-  default from: 'admin@depot.com'
+  default from: SENDER_EMAIL
 
-  def welcome_email
-    @user = params[:user]
+  def welcome_email(user)
+    @user = user
     mail(to: @user.email, subject: 'Welcome to Depot App')
   end
 end
