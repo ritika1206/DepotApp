@@ -12,6 +12,10 @@ class AdminController < ApplicationController
     end
   end
 
+  def categories
+    @categories = Category.all
+  end
+
   private
     def restrict_non_admin_access
       unless @logged_in_user.role == 'admin'
