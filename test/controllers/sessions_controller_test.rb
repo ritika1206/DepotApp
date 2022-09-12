@@ -12,7 +12,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
       name: dave.name,
       password: 'secret'
     }
-    assert_redirected_to admin_url
+    assert_redirected_to 
     assert_equal dave.id, session[:user_id]
   end
 

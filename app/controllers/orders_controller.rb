@@ -17,6 +17,7 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+    @order.user_id = session[:user_id]
   end
 
   # GET /orders/1/edit
@@ -27,6 +28,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.add_line_items_from_cart(@cart)
+    @order.user_id = session[:user_id]
 
     respond_to do |format|
       if @order.save

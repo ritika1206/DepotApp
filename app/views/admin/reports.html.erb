@@ -1,0 +1,15 @@
+Admin Orders
+<%= form_with url: admin_reports_path, method: :get do |form| %>
+  <%= form.label :created_at, 'Filter: '  %>
+  <div>
+    <%= form.label :created_at, 'From: '  %>
+    <%= form.date_field :from %>
+
+    <%= form.label :created_at, 'To: '  %>
+    <%= form.date_field :to %>
+    <%= form.submit "Submit" %>
+  </div>
+<% end %>
+<% @orders.each do |order| %>
+<li><%= order %></li>
+<% end %>
