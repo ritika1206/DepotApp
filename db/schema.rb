@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_09_105939) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_12_052619) do
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.string "message_id", null: false
@@ -46,6 +46,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_09_105939) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "state"
+    t.string "city"
+    t.string "country"
+    t.integer "pincode", limit: 6
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "carts", force: :cascade do |t|
