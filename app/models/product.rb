@@ -32,7 +32,6 @@ class Product < ApplicationRecord
   scope :products_in_cart, -> { Product.joins(:line_items) }
   scope :names_of_products_in_cart, -> { Product.joins(:line_items).pluck(:title) }
 
-
   private
 
     def ensure_not_referenced_by_any_line_item
