@@ -26,6 +26,7 @@ class Product < ApplicationRecord
   validates :permalink, uniqueness: true, format: { with: PERMALINK_REGEX, message: "no special and no space allowed in the permalink" }, if: :permalink_present?
   validates_comparison_of :words_in_permalink_separated_by_hyphen, greater_than_or_equal_to: 3, message: "permalink should contain minimun 3 words separated by hyphen", if: :permalink_present?
   validates_comparison_of :words_in_description, greater_than_or_equal_to: 5, less_than_or_equal_to: 10, if: ->{ description.present? }
+  validates :category, presence: true
 
   scope :enabled_and_price_above, ->(price) { where("enabled = ? AND price > ?", true, price) }
   scope :products_in_cart, -> { Product.joins(:line_items) }

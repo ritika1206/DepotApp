@@ -42,6 +42,11 @@
   </div>
 
   <div>
+    <%= form.label :category_id %>
+    <%= form.select :category_id, @categories, include_blank: 'Select One' %>
+  </div>
+
+  <div>
     <%= form.label :enabled, style: "display: block" %>
     <%= form.check_box :enabled %>
   </div>

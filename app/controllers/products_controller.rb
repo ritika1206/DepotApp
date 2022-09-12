@@ -13,6 +13,8 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    @categories = Category.pluck(:name, :id)
+    p @categories
   end
 
   # GET /products/1/edit
@@ -22,6 +24,7 @@ class ProductsController < ApplicationController
   # POST /products or /products.json
   def create
     @product = Product.new(product_params)
+    @categories = Category.pluck(:name, :id)
 
     respond_to do |format|
       if @product.save
@@ -79,6 +82,7 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :permalink, :discount_price, :enabled)
+      # params[:category_id] = Category.where(name: params[:category_name]).pluck(:id)
+      params.require(:product).permit(:title, :description, :image_url, :price, :permalink, :discount_price, :enabled, :category_id)
     end
 end
