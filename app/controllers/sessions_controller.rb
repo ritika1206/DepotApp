@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
 
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
+      session[:user_last_active_at] = Time.now
       if user.role == 'admin'
         redirect_to admin_reports_path
       else

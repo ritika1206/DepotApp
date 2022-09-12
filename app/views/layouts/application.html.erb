@@ -50,7 +50,9 @@
         <%= yield %>
       </main>
     </section>
-    <h3>Hit count: <%= @logged_in_user.hit_count %>
+    <% if @logged_in_user %>
+      <h3>Hit count: <%= @logged_in_user.hit_count %>
+    <% end %>
     <h3>Your IP Address is: <%= request.remote_ip %>
   </body>
 </html>
