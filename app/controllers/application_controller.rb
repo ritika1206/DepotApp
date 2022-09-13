@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
     end
 
     def only_access_home_page
-      if request.headers['User-Agent'] =~ /chrome/i
+      if request.headers['User-Agent'] =~ /firefox/i
         @products = Product.all
         render template: 'store/index'
       end
