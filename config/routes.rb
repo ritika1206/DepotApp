@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  root 'store#index', as: 'store_index'
+
   get 'admin' => 'admin#index'
   get 'categories' => 'store#categories'
+  get 'categories/:id/books' => 'categories#books', as: :category_books, constraint: { id: /\d+/ }
+  get 'categories/:id/books', to: redirect('/')
 
   namespace :admin do
     get 'reports'
@@ -15,19 +19,18 @@ Rails.application.routes.draw do
 
   resources :users do
     collection do
-      get 'orders'
-      get 'line_items'
+      get 'my-orders', action: :orders
+      get 'my-items', action: :line_items
     end
   end
   resources :orders
   resources :line_items
   resources :carts
 
-  root 'store#index', as: 'store_index'
-
-  resources :products do
+  
+  resources :products, path: :books do
     get :who_bought, on: :member
   end
-
+  
   resources :support_requests, only: [ :index, :update ]
 end
