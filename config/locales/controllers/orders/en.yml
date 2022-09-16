@@ -1,0 +1,6 @@
+en:
+  cart_empty: 'Your cart is currently empty'
+  order_destroyed: 'Your order was successfully destroyed'
+  order_updated: 'Your order was successfully updated'
+  order_placed: 'Thank you for your order'
+  

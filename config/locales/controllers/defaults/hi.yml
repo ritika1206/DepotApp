@@ -1,0 +1,7 @@
+hi:
+  created: '%{resource_name} सफलतापूर्वक बनाया गया है।'
+  login_request: 'कृपया लॉगिन करें'
+  logged_out: 'लॉग आउट'
+  updated: '%{resource_name} सफलतापूर्वक अपडेट किया गया था।'
+  destroyed: '%{resource_name} सफलतापूर्वक नष्ट कर दिया गया था।'
+  invalid_combination: 'अमान्य उपयोगकर्ता/पासवर्ड संयोजन'

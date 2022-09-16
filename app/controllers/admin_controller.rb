@@ -19,7 +19,7 @@ class AdminController < ApplicationController
   private
     def restrict_non_admin_access
       unless @logged_in_user.role == 'admin'
-        redirect_to store_index_url, notice: "You don't have privilege to access this section"
+        redirect_to store_index_url, notice: t('no_privilege')
       end
     end
 end
