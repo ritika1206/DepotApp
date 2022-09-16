@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
 
     def auto_logout_user_on_inactivity
-      if session[:user_id] && (Time.now - session[:user_last_active_at].to_time) >= 5.minutes
+      if session[:user_id] && (Time.now - session[:user_last_active_at].to_time) >= 5.hours
         session[:user_id] = nil
         redirect_to store_index_url, notice: t('logged_out')
       else

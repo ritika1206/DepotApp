@@ -12,6 +12,7 @@ class ProductsController < ApplicationController
 
   # GET /products/1 or /products/1.json
   def show
+    @logged_in_user_product_rating = logged_in_user_product_rating(params[:id])
   end
 
   # GET /products/new
@@ -66,6 +67,19 @@ class ProductsController < ApplicationController
     end
   end
 
+  def rate
+    @rating = Rating.find_or_initialize_by(user_id: @logged_in_user.id, product_id: params[:product_id])
+    @rating.rating = params[:rating]
+    
+    respond_to do |format|
+      if @rating.save!
+        format.json { render json: :created }
+      else
+        format.json { render json: :unprocessable_entity }
+      end
+    end
+  end
+
   def who_bought
     @product = Product.find(params[:id])
     @latest_order = @product.orders.order(:updated_at).last
@@ -87,5 +101,9 @@ class ProductsController < ApplicationController
     def product_params
       # params[:category_id] = Category.where(name: params[:category_name]).pluck(:id)
       params.require(:product).permit(:title, :description, :image_url, :price, :permalink, :discount_price, :enabled, :category_id)
+    end
+
+    def logged_in_user_product_rating(product_id)
+      Rating.where(user_id: @logged_in_user.id, product_id: product_id).first.rating
     end
 end

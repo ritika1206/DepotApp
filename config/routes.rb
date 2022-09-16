@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   
   resources :products, path: :books do
     get :who_bought, on: :member
+    post :rate
   end
   
   resources :support_requests, only: [ :index, :update ]

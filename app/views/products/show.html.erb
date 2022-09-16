@@ -5,6 +5,13 @@
 <div>
   <%= link_to "Edit this product", edit_product_path(@product) %> |
   <%= link_to "Back to products", products_path %>
+  
+  <%= form_with url: product_rate_path(@product.id), method: :post, local: false do |form| %>
+    <%= form.label :rating, "Rate" %>
+    <%= form.select :rating, 1.step(5, 0.5).to_a, selected: @logged_in_user_product_rating %>
+    <%= form.submit 'Rate' %>
+    
+  <% end %>
 
   <%= button_to "Destroy this product", @product, method: :delete %>
 </div>
