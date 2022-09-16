@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   around_action :action_response_time
 
   protected def authorize
-    p request.headers['User-Agent'] =~ /chrome/i
     unless @logged_in_user = User.find_by(id: session[:user_id])
       redirect_to login_url, notice: "Please log in"
     end

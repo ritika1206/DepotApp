@@ -1,0 +1,10 @@
+<h1>आपके आदेश सफलतापूर्वक दिए गए हैं</h1>
+<h3>आपके आदेशों का विवरण निम्नलिखित है</h3>
+
+<h4>उत्पादों</h4>
+<p>
+  <% @orders.each_with_index do |order, index|%>
+    <h2>आदेश<%=(index + 1)%>
+    <%= render order.line_items -%>
+  <%end%>
+</p>

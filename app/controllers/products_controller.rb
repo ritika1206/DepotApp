@@ -18,7 +18,6 @@ class ProductsController < ApplicationController
   def new
     @product = Product.new
     @categories = Category.pluck(:name, :id)
-    p @categories
   end
 
   # GET /products/1/edit

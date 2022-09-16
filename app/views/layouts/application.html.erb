@@ -40,6 +40,12 @@
               <li><%= link_to 'Products', products_path %></li>
               <li><%= link_to 'Users', users_path %></li>
               <li><%= button_to 'Logout', logout_path, method: :delete %></li>
+              <% if session[:user_id] %>
+                <%= form_with model: @logged_in_user, url: user_path(session[:user_id]) do |form|%>
+                  <%= form.label :language_preference %>
+                  <%= form.select :language_preference, User.language_preferences.keys, {}, { :onchange => "this.form.submit()" } %>
+                <% end %>
+              <% end %>
             </ul>
           </nav>
         <% end %>
