@@ -4,6 +4,7 @@
 	</td>
 	<td class="description">
 		<h1><%= product.title %></h1>
+		<h4>Rating: <%= product.rating || 'Be the first one to rate' %></h4>
 		<p>
 			<%= truncate(strip_tags(product.description), length: 80) %>
 		</p>

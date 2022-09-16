@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_15_103648) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_16_094058) do
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.string "message_id", null: false
@@ -109,6 +109,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_103648) do
     t.integer "category_id", null: false
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "product_id", null: false
+    t.decimal "rating", precision: 2, scale: 1
+    t.index ["product_id"], name: "index_ratings_on_product_id"
+    t.index ["user_id"], name: "index_ratings_on_user_id"
+  end
+
   create_table "support_requests", force: :cascade do |t|
     t.string "email"
     t.string "subject"
@@ -138,5 +146,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_103648) do
   add_foreign_key "line_items", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "categories"
+  add_foreign_key "ratings", "products"
+  add_foreign_key "ratings", "users"
   add_foreign_key "support_requests", "orders"
 end
