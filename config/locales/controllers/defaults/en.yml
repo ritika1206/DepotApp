@@ -1,0 +1,7 @@
+en:
+  created: '%{resource_name} was successfully created.'
+  updated: '%{resource_name} was successfully updated.'
+  destroyed: '%{resource_name} was successfully destroyed.'
+  login_request: 'Please login'
+  logged_out: 'Logged out'
+  invalid_combination: "Invalid user/password combination"

@@ -1,0 +1,10 @@
+<h1>Your orders are successfully placed</h1>
+<h3>Following are the details of your orders</h3>
+
+<h4>Products</h4>
+<p>
+  <% @orders.each_with_index do |order, index|%>
+    <h2>Order <%=(index + 1)%>
+    <%= render order.line_items -%>
+  <% end %>
+</p>

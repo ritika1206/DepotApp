@@ -3,6 +3,7 @@ require 'pago';
 class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
   belongs_to :user
+  after_create_commit :send_order_confirmation_mail
   
   enum pay_type: {
     "Check" => 0,
@@ -53,5 +54,9 @@ class Order < ApplicationRecord
     else
       raise payment_result.error
     end
+  end
+
+  def send_order_confirmation_mail
+    OrderMailer.received(self).deliver_later
   end
 end
