@@ -1,36 +1,48 @@
+class RestrictedBrowserRequest
+  def self.matches?(request)
+    request.headers['User-Agent'] !~ BROWSER_REGEX
+  end
+end
+
 Rails.application.routes.draw do
-  root 'store#index', as: 'store_index'
+  constraints(RestrictedBrowserRequest) do
+    root 'store#index', as: 'store_index'
 
-  get 'admin' => 'admin#index'
-  get 'categories' => 'store#categories'
-  get 'categories/:id/books' => 'categories#books', as: :category_books, constraint: { id: /\d+/ }
-  get 'categories/:id/books', to: redirect('/')
+    get 'admin' => 'admin#index'
 
-  namespace :admin do
-    get 'reports'
-    get 'categories'
-  end
-  
-  controller :sessions do
-    get 'login' => :new
-    post 'login' => :create
-    delete 'logout' => :destroy
-  end
-
-  resources :users do
-    collection do
-      get 'my-orders', action: :orders
-      get 'my-items', action: :line_items
+    namespace :admin do
+      get 'reports'
+      get 'categories'
     end
-  end
-  resources :orders
-  resources :line_items
-  resources :carts
+    
+    controller :sessions do
+      get 'login' => :new
+      post 'login' => :create
+      delete 'logout' => :destroy
+    end
 
-  
-  resources :products, path: :books do
-    get :who_bought, on: :member
+    resources :users do
+      collection do
+        get 'my-orders', action: :orders
+        get 'my-items', action: :line_items
+      end
+    end
+    resources :orders
+    resources :line_items
+    resources :carts
+
+    
+    resources :products, path: :books do
+      get :who_bought, on: :member
+    end
+
+    resources :categories, constraints: { id: POSITIVE_INTEGER_REGEX }, only: :index  do
+      get :books, on: :member
+    end
+    get 'categories/*path', to: redirect('/')
+
+    resources :support_requests, only: [ :index, :update ]
   end
-  
-  resources :support_requests, only: [ :index, :update ]
+  get '/' => 'store#index'
+  match '/*path', via: :all, to: redirect('/404')
 end
