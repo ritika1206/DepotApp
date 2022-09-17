@@ -1,0 +1,10 @@
+<% if @books.present? %>
+  <%= render @books %>
+<% else %>
+  <h4>No books exist for the selected category</h4>
+<% end %>
+<% if @sub_category_books %>
+  <%= render @sub_category_books %>
+<% else %>
+  <h4>No books exist for sub category of the selected category </h4>
+<% end %>
