@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :restrict_with_error, counter_cache: true
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
+  belongs_to :category, counter_cache: true
   before_destroy :ensure_not_referenced_by_any_line_item
 
   after_initialize do |prod| 
@@ -13,6 +14,9 @@ class Product < ApplicationRecord
       prod.discount_price = prod.price unless prod.price
     end
   end
+
+  after_create :update_total_products_count_of_category
+  after_destroy :update_total_products_count_of_category
 
   validates :title, :description, :image_url, :price, presence: true
 
@@ -60,5 +64,11 @@ class Product < ApplicationRecord
 
     def discount_price_present?
       discount_price.present?
+    end
+
+    def update_total_products_count_of_category
+      category.total_products_count = category.products_count
+      category.children.each { |child| category.total_products_count += child.products_count }
+      category.save
     end
 end

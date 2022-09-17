@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_01_121454) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_09_105939) do
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.string "message_id", null: false
@@ -54,6 +54,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_121454) do
     t.integer "line_items_count", default: 0, null: false
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.integer "products_count"
+    t.integer "total_products_count"
+    t.integer "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_categories_on_parent_id"
+  end
+
   create_table "line_items", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "cart_id"
@@ -87,6 +97,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_121454) do
     t.boolean "enabled", default: false
     t.decimal "discount_price", precision: 8, scale: 2
     t.string "permalink"
+    t.integer "category_id", null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
   end
 
   create_table "support_requests", force: :cascade do |t|
@@ -109,9 +121,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_01_121454) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "categories", "categories", column: "parent_id"
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "products"
   add_foreign_key "orders", "users"
+  add_foreign_key "products", "categories"
   add_foreign_key "support_requests", "orders"
 end
