@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  get 'admin' => 'admin#index'
+  get 'admin', to: 'admin/admin#index'
   get 'categories' => 'store#categories'
 
   namespace :admin do
-    get 'reports'
-    get 'categories'
+    get 'categories', to: 'admin#categories'
+    resources :reports, only: :index
   end
   
   controller :sessions do
