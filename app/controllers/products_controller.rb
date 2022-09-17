@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
     @products = Product.all.order(:title)
     respond_to do |format|
       format.html
-      format.json
+      format.json { render json: @products.joins(:category).select(:id, :title, 'categories.name AS category_name') }
     end
   end
 
@@ -17,8 +17,6 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
-    @categories = Category.pluck(:name, :id)
-    p @categories
   end
 
   # GET /products/1/edit
@@ -28,7 +26,6 @@ class ProductsController < ApplicationController
   # POST /products or /products.json
   def create
     @product = Product.new(product_params)
-    @categories = Category.pluck(:name, :id)
 
     respond_to do |format|
       if @product.save

@@ -43,7 +43,7 @@
 
   <div>
     <%= form.label :category_id %>
-    <%= form.select :category_id, @categories, include_blank: 'Select One' %>
+    <%= form.select :category_id, Category.pluck(:name, :id), include_blank: 'Select One' %>
   </div>
 
   <div>
