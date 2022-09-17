@@ -95,9 +95,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_09_105939) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "enabled", default: false
-    t.decimal "discount_price"
+    t.decimal "discount_price", precision: 8, scale: 2
     t.string "permalink"
     t.integer "category_id", null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
   end
 
   create_table "support_requests", force: :cascade do |t|

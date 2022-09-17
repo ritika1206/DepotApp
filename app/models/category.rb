@@ -5,13 +5,16 @@ class Category < ApplicationRecord
   has_many :sub_category_products, through: :children, dependent: :restrict_with_error, source: :products
 
   validates :name, presence: true
-  validates :name, uniqueness: true, if: :name?
-  validates :name, uniqueness: { scope: :parent_id }, if: :name?
+  validates :name, uniqueness: true, allow_blank: true
+  validates :name, uniqueness: { scope: :parent_id }, allow_blank: true
   validate :ensure_one_level_category_nesting
 
   private
 
     def ensure_one_level_category_nesting
-      parent.parent_id.nil? if parent.present?
+      return true if parent.present? && parent.parent_id.nil?
+
+      errors.add :base, "Only level nesting is allowed"
+      false
     end
 end

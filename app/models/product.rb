@@ -16,6 +16,7 @@ class Product < ApplicationRecord
   end
 
   after_create :update_total_products_count_of_category
+  after_destroy :update_total_products_count_of_category
 
   validates :title, :description, :image_url, :price, presence: true
 
@@ -68,5 +69,6 @@ class Product < ApplicationRecord
     def update_total_products_count_of_category
       category.total_products_count = category.products_count
       category.children.each { |child| category.total_products_count += child.products_count }
+      category.save
     end
 end
