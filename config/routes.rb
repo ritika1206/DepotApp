@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
-  get 'admin' => 'admin#index'
+  get 'admin', to: 'admin/admin#index'
   get 'categories' => 'store#categories'
+
+  namespace :admin do
+    get 'categories', to: 'admin#categories'
+    resources :reports, only: :index
+  end
   
-  # Mapping custom routes to actions in sessions controller
   controller :sessions do
-    # both login mapped to :new and :create method
-    # only difference is type of request being GET and POST
     get 'login' => :new
     post 'login' => :create
     delete 'logout' => :destroy
@@ -20,10 +22,7 @@ Rails.application.routes.draw do
   resources :orders
   resources :line_items
   resources :carts
-  
-  # Creating Store as Root URL of App 
-  # as: option creates store_index_path and store_index_url methods for tests
-  # store#index specifying class and method to use for action request
+
   root 'store#index', as: 'store_index'
 
   resources :products do

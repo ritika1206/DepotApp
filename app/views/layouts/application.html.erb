@@ -50,6 +50,11 @@
         <%= yield %>
       </main>
     </section>
-
+    <% if @logged_in_user %>
+      <h3>Your Hit count: <%= @logged_in_user.hit_count %>
+      <h3>Session Hit count: <%= session[:hit_count] || 0%>
+      <h3>Application Hit count: <%= User.sum(:hit_count) || 0%>
+    <% end %>
+    <h3>Your IP Address is: <%= request.remote_ip %>
   </body>
 </html>

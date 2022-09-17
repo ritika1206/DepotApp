@@ -19,6 +19,10 @@ class User < ApplicationRecord
   class Error < StandardError
   end
 
+  def admin?
+    role == 'admin'
+  end
+
   private 
     def ensure_an_admin_remains
       if User.count.zero?
