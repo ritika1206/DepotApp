@@ -5,6 +5,8 @@ class User < ApplicationRecord
   validates :email, uniqueness: { message: "already exists" }, format: { with: EMAIL_REGEX }
 
   has_many :orders, dependent: :destroy
+  has_one :address, dependent: :destroy
+  accepts_nested_attributes_for :address
 
   # Validates that the two passwords match in field
   has_secure_password

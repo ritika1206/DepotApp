@@ -1,22 +1,24 @@
-<div id="<%= dom_id product %>">
-  <p>
-    <strong>Title:</strong>
-    <%= product.title %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= product.description %>
-  </p>
-
-  <p>
-    <strong>Image url:</strong>
-    <%= product.image_url %>
-  </p>
-
-  <p>
-    <strong>Price:</strong>
-    <%= product.price %>
-  </p>
-
-</div>
+<tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+	<td class="image">
+		<%= image_tag(product.image_url, class: 'list_image') %>
+	</td>
+	<td class="description">
+		<h1><%= product.title %></h1>
+		<p>
+			<%= truncate(strip_tags(product.description), length: 80) %>
+		</p>
+	</td>
+	<td class="actions">
+		<ul>
+			<li>
+				<%= link_to 'Show', product %>
+			</li>
+			<li>
+				<%= link_to 'Edit', edit_product_path(product) %>
+			</li>
+			<li>
+				<%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %>
+			</li>
+		</ul>
+	</td>
+</tr>

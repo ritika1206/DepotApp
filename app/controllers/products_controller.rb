@@ -4,6 +4,10 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @products = Product.all.order(:title)
+    respond_to do |format|
+      format.html
+      format.json { render json: @products.joins(:category).select(:id, :title, 'categories.name AS category_name') }
+    end
   end
 
   # GET /products/1 or /products/1.json
@@ -79,6 +83,7 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:title, :description, :image_url, :price, :permalink, :discount_price, :enabled)
+      # params[:category_id] = Category.where(name: params[:category_name]).pluck(:id)
+      params.require(:product).permit(:title, :description, :image_url, :price, :permalink, :discount_price, :enabled, :category_id)
     end
 end

@@ -11,7 +11,12 @@ Rails.application.routes.draw do
     delete 'logout' => :destroy
   end
 
-  resources :users
+  resources :users do
+    collection do
+      get 'orders'
+      get 'line_items'
+    end
+  end
   resources :orders
   resources :line_items
   resources :carts
@@ -26,5 +31,4 @@ Rails.application.routes.draw do
   end
 
   resources :support_requests, only: [ :index, :update ]
-
 end

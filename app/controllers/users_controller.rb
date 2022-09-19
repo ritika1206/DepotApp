@@ -63,6 +63,17 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: exception.message
   end
 
+  def orders
+    @orders = Order.where(user_id: session[:user_id])
+    render layout: "user_orders"
+  end
+
+  def line_items
+    @line_items = Product.products_in_cart
+    render layout: "user_orders"
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
