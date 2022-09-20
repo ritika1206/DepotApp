@@ -2,14 +2,16 @@ class Product < ApplicationRecord
   PERMALINK_REGEX = /[[:alnum:]]+/
   validates_with ImageUrlValidator, attributes: [:image_url], if: ->{ image_url.present? }
 
-  has_many :line_items, dependent: :restrict_with_error
+  has_many :line_items, dependent: :restrict_with_error, counter_cache: true
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
   before_destroy :ensure_not_referenced_by_any_line_item
 
   after_initialize do |prod| 
     prod.title = 'abc' unless prod.title
-    prod.discount_price = prod.price unless prod.price
+    if prod.attributes["price"]
+      prod.discount_price = prod.price unless prod.price
+    end
   end
 
   validates :title, :description, :image_url, :price, presence: true
@@ -21,6 +23,11 @@ class Product < ApplicationRecord
   validates :permalink, uniqueness: true, format: { with: PERMALINK_REGEX, message: "no special and no space allowed in the permalink" }, if: :permalink_present?
   validates_comparison_of :words_in_permalink_separated_by_hyphen, greater_than_or_equal_to: 3, message: "permalink should contain minimun 3 words separated by hyphen", if: :permalink_present?
   validates_comparison_of :words_in_description, greater_than_or_equal_to: 5, less_than_or_equal_to: 10, if: ->{ description.present? }
+
+  scope :enabled_and_price_above, ->(price) { where("enabled = ? AND price > ?", true, price) }
+  scope :products_in_cart, -> { Product.joins(:line_items).distinct }
+  scope :names_of_products_in_cart, -> { Product.joins(:line_items).distinct.pluck(:title) }
+
 
   private
 
